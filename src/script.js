@@ -118,3 +118,29 @@ document
   });
 
 geocode.getLocation();
+
+// Function to fetch current time from the WorldTimeAPI
+async function fetchCurrentTime() {
+    try {
+        const response = await fetch('https://worldtimeapi.org/api/ip');
+        if (!response.ok) {
+            throw new Error('Failed to fetch current time');
+        }
+        const data = await response.json();
+        return data.datetime; // Assuming the API returns the current time in ISO format
+    } catch (error) {
+        console.error('Error fetching current time:', error);
+        return null;
+    }
+}
+
+// Function to update the displayed time
+function updateTime() {
+    const timeElement = document.getElementById('current-time');
+    const date = new Date();
+    timeElement.textContent = date.toLocaleTimeString(); // Display current time
+}
+
+// Update the time initially and schedule periodic updates
+updateTime();
+setInterval(updateTime, 1000); // Update time every second
